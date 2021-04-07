@@ -1,18 +1,18 @@
-import SQS from "aws-sdk/clients/sqs";
+import SQS from 'aws-sdk/clients/sqs'
 
-export const main = async (event) => {
-  let statusCode = httpStatusCodes.OK;
+export const main = async event => {
+  let statusCode = httpStatusCodes.OK
 
   const AWS_CONFIG = {
-    region: process.env.AWS_REGION || "us-east-1",
-  };
+    region: process.env.AWS_REGION || 'us-east-1',
+  }
 
   const {
     pathParameters: { uuid },
-  } = event;
+  } = event
 
-  const sqsService = new SQS(AWS_CONFIG);
-  const messageGroupId = "create-emission";
+  const sqsService = new SQS(AWS_CONFIG)
+  const messageGroupId = 'create-process'
 
   await sqsService
     .sendMessage({
@@ -20,10 +20,10 @@ export const main = async (event) => {
       MessageBody: uuid,
       MessageGroupId: messageGroupId,
     })
-    .promise();
+    .promise()
 
   return {
     headers: responseHeaders,
     statusCode: statusCode,
-  };
-};
+  }
+}
