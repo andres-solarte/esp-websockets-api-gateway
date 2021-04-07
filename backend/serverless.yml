@@ -1,23 +1,4 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: backend
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 
 package:
   individually: true
@@ -27,14 +8,13 @@ plugins:
   - serverless-offline
   - serverless-prune-plugin
 
-
 provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   apiGateway:
-    minimumCompressionSize: 1024  
+    minimumCompressionSize: 1024
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -92,7 +72,6 @@ functions:
     events:
       - websocket:
           route: $disconnect
-         
 
   createEmision:
     handler: createEmision.main
@@ -104,13 +83,11 @@ functions:
   notify:
     handler: notify.main
 
-  startStepFunction: 
-    handler: notify.main 
+  startStepFunction:
+    handler: notify.main
 
   consumeEmisionService:
-    handler: consumeEmisionService.main   
- 
-    
+    handler: consumeEmisionService.main
 
 resources:
   Resources:
@@ -127,7 +104,7 @@ resources:
     CreateEmissionSqsQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName:  create-emission-sqs.fifo
+        QueueName: create-emission-sqs.fifo
         FifoQueue: true
         ContentBasedDeduplication: true
         VisibilityTimeout: 60
@@ -139,10 +116,6 @@ resources:
         Tags:
           - Key: Name
             Value: create-emission-sqs.fifo
-
-
-    
-       
 #      path: emission/{uuid}/create-emission
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -195,5 +168,4 @@ resources:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
-
 
