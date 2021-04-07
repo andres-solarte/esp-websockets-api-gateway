@@ -1,0 +1,7 @@
+notifyStream:
+  handler: src/handlers/notify-stream.main
+  events:
+    - stream:
+        type: dynamodb
+        arn:
+          Fn::GetAtt: [DynamoDBTableProcessCreationStatus, StreamArn]

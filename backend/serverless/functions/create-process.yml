@@ -1,0 +1,5 @@
+createProcess:
+    handler: src/handlers/create-process.main
+    timeout: 60
+    events:
+      - sqs: ${self:custom.variables.create-process-sqs-queue-arn}

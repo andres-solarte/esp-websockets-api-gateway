@@ -1,0 +1,10 @@
+createEmision:
+  handler: src/handlers/start-process.main
+  events:
+    - http:
+        path: process/{uuid}/start
+        method: post
+        request:
+          parameters:
+            paths:
+              uuid: true

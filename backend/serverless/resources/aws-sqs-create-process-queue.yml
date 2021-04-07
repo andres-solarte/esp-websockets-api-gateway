@@ -1,0 +1,26 @@
+Resources:
+  CreateProcessDlqSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.create-process-dlq-sqs-queue-name}
+      FifoQueue: true
+      ContentBasedDeduplication: true
+      KmsMasterKeyId: alias/aws/sqs
+      Tags:
+        - Key: Name
+          Value: ${self:custom.variables.create-process-dlq-sqs-queue-name}
+  CreateProcessSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.create-process-sqs-queue-name}
+      FifoQueue: true
+      ContentBasedDeduplication: true
+      VisibilityTimeout: 60
+      MessageRetentionPeriod: 10800
+      KmsMasterKeyId: alias/aws/sqs
+      RedrivePolicy:
+        deadLetterTargetArn: { 'Fn::GetAtt': ['CreateProcessDlqSqsQueue', 'Arn'] }
+        maxReceiveCount: 5
+      Tags:
+        - Key: Name
+          Value: ${self:custom.variables.create-process-sqs-queue-name}

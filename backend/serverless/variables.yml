@@ -1,0 +1,5 @@
+create-process-sqs-queue-prefix: ${self:service}-sqs-${self:provider.stage}-queue-create-process
+create-process-sqs-queue-name: ${self:custom.variables.create-process-sqs-queue-prefix}.fifo
+create-process-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.create-process-sqs-queue-name}
+create-process-dlq-sqs-queue-name: ${self:custom.variables.create-process-sqs-queue-prefix}-dlq.fifo
+create-process-sqs-queue-url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/${self:custom.variables.create-process-sqs-queue-name}
