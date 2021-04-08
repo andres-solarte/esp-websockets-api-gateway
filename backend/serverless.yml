@@ -37,19 +37,6 @@ provider:
       Resource: '*'
 
 functions:
-  connect:
-    handler: connectWS.main
-    events:
-      - websocket:
-          route: $connect
-
-  disconnect:
-    handler: disconnectWS.main
-    events:
-      - websocket:
-          route: $disconnect
-
-functions:
   - ${file(serverless/functions/connect.yml)}
   - ${file(serverless/functions/create-process.yml)}
   - ${file(serverless/functions/disconnect.yml)}

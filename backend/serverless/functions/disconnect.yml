@@ -1,0 +1,5 @@
+disconnect:
+  handler: src/handlers/disconnect.main
+  events:
+    - websocket:
+        route: $disconnect
