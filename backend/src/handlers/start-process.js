@@ -1,29 +1,33 @@
-import SQS from 'aws-sdk/clients/sqs'
+const SQS = require('aws-sdk/clients/sqs')
 
-export const main = async event => {
-  let statusCode = httpStatusCodes.OK
-
-  const AWS_CONFIG = {
-    region: process.env.AWS_REGION || 'us-east-1',
-  }
-
+module.exports.main = async event => {
   const {
     pathParameters: { uuid },
   } = event
 
-  const sqsService = new SQS(AWS_CONFIG)
+  const sqs = new SQS({
+    region: 'us-east-1',
+    apiVersion: '2012-11-05',
+  })
+
   const messageGroupId = 'create-process'
 
-  await sqsService
-    .sendMessage({
-      QueueUrl: process.env.CREATE_PROCESS_SQS_QUEUE_URL,
-      MessageBody: uuid,
-      MessageGroupId: messageGroupId,
-    })
-    .promise()
+  const params = {
+    QueueUrl: process.env.CREATE_PROCESS_SQS_QUEUE_URL,
+    MessageBody: uuid,
+    MessageGroupId: messageGroupId,
+  }
+
+  console.log(params)
+
+  await sqs.sendMessage(params).promise()
 
   return {
-    headers: responseHeaders,
-    statusCode: statusCode,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
+    statusCode: 200,
   }
 }

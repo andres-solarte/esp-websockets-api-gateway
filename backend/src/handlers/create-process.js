@@ -1,7 +1,7 @@
 const { updateConnection } = require('../db')
 const { removeFromQueue } = require('../sqs')
 
-export const main = async (event, context, callback) => {
+module.exports.main = async (event, context, callback) => {
   console.log('it started consume process service')
 
   //Recibe datos de sqs

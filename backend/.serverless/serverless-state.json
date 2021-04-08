@@ -12,8 +12,7 @@
       "region": "us-east-1",
       "environment": {
         "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-        "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
-        "QUEUE_CREATE_PROCESS_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
+        "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
         "APP_STAGE": "local"
       },
       "apiGateway": {
@@ -279,7 +278,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/connect.zip"
+                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/connect.zip"
               },
               "FunctionName": "backend-local-connect",
               "Handler": "src/handlers/connect.main",
@@ -295,10 +294,7 @@
               "Environment": {
                 "Variables": {
                   "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-                  "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
-                  },
-                  "QUEUE_CREATE_PROCESS_URL": {
+                  "CREATE_PROCESS_SQS_QUEUE_URL": {
                     "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
@@ -309,14 +305,14 @@
               "ConnectLogGroup"
             ]
           },
-          "ConnectLambdaVersionx1IOagbnNPg7ACufBzdr5FvM2Et4dQ7Gux9DGufikO4": {
+          "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConnectLambdaFunction"
               },
-              "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
+              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
             }
           },
           "CreateProcessLambdaFunction": {
@@ -326,7 +322,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/createProcess.zip"
+                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/createProcess.zip"
               },
               "FunctionName": "backend-local-createProcess",
               "Handler": "src/handlers/create-process.main",
@@ -342,10 +338,7 @@
               "Environment": {
                 "Variables": {
                   "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-                  "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
-                  },
-                  "QUEUE_CREATE_PROCESS_URL": {
+                  "CREATE_PROCESS_SQS_QUEUE_URL": {
                     "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
@@ -356,14 +349,14 @@
               "CreateProcessLogGroup"
             ]
           },
-          "CreateProcessLambdaVersionWBLA0iGZLvpuRk1IBIzAodPBHuypb6i9BA68oepIRc": {
+          "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateProcessLambdaFunction"
               },
-              "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
+              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
             }
           },
           "DisconnectLambdaFunction": {
@@ -373,7 +366,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/disconnect.zip"
+                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/disconnect.zip"
               },
               "FunctionName": "backend-local-disconnect",
               "Handler": "src/handlers/disconnect.main",
@@ -389,10 +382,7 @@
               "Environment": {
                 "Variables": {
                   "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-                  "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
-                  },
-                  "QUEUE_CREATE_PROCESS_URL": {
+                  "CREATE_PROCESS_SQS_QUEUE_URL": {
                     "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
@@ -403,14 +393,14 @@
               "DisconnectLogGroup"
             ]
           },
-          "DisconnectLambdaVersionpvHpbqBdHvPEvGubQhR9nAX2OvajvCNQIhddYl4HD3E": {
+          "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DisconnectLambdaFunction"
               },
-              "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
+              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
             }
           },
           "NotifyStreamLambdaFunction": {
@@ -420,7 +410,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/notifyStream.zip"
+                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/notifyStream.zip"
               },
               "FunctionName": "backend-local-notifyStream",
               "Handler": "src/handlers/notify-stream.main",
@@ -436,10 +426,7 @@
               "Environment": {
                 "Variables": {
                   "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-                  "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
-                  },
-                  "QUEUE_CREATE_PROCESS_URL": {
+                  "CREATE_PROCESS_SQS_QUEUE_URL": {
                     "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
@@ -450,14 +437,14 @@
               "NotifyStreamLogGroup"
             ]
           },
-          "NotifyStreamLambdaVersionU6Svnxn25SKtEUCcBCif20B2Zxz6Y7LhIz9NKFPrI": {
+          "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "NotifyStreamLambdaFunction"
               },
-              "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
+              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
             }
           },
           "StartProcessLambdaFunction": {
@@ -467,7 +454,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/startProcess.zip"
+                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/startProcess.zip"
               },
               "FunctionName": "backend-local-startProcess",
               "Handler": "src/handlers/start-process.main",
@@ -483,10 +470,7 @@
               "Environment": {
                 "Variables": {
                   "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-                  "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
-                  },
-                  "QUEUE_CREATE_PROCESS_URL": {
+                  "CREATE_PROCESS_SQS_QUEUE_URL": {
                     "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
@@ -497,14 +481,14 @@
               "StartProcessLogGroup"
             ]
           },
-          "StartProcessLambdaVersionBsTlDiFx7xxPhLzvkv5bZ3fZ1ke5YnxDhDioclXetjM": {
+          "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "StartProcessLambdaFunction"
               },
-              "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
+              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
             }
           },
           "ApiGatewayRestApi": {
@@ -604,7 +588,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1617890540663": {
+          "ApiGatewayDeployment1617894346152": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -946,31 +930,31 @@
           "ConnectLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConnectLambdaVersionx1IOagbnNPg7ACufBzdr5FvM2Et4dQ7Gux9DGufikO4"
+              "Ref": "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI"
             }
           },
           "CreateProcessLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateProcessLambdaVersionWBLA0iGZLvpuRk1IBIzAodPBHuypb6i9BA68oepIRc"
+              "Ref": "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE"
             }
           },
           "DisconnectLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DisconnectLambdaVersionpvHpbqBdHvPEvGubQhR9nAX2OvajvCNQIhddYl4HD3E"
+              "Ref": "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU"
             }
           },
           "NotifyStreamLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "NotifyStreamLambdaVersionU6Svnxn25SKtEUCcBCif20B2Zxz6Y7LhIz9NKFPrI"
+              "Ref": "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc"
             }
           },
           "StartProcessLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "StartProcessLambdaVersionBsTlDiFx7xxPhLzvkv5bZ3fZ1ke5YnxDhDioclXetjM"
+              "Ref": "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o"
             }
           },
           "ServiceEndpoint": {
@@ -1127,7 +1111,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "ConnectLambdaVersionx1IOagbnNPg7ACufBzdr5FvM2Et4dQ7Gux9DGufikO4"
+        "versionLogicalId": "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI"
       },
       "createProcess": {
         "handler": "src/handlers/create-process.main",
@@ -1144,7 +1128,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "CreateProcessLambdaVersionWBLA0iGZLvpuRk1IBIzAodPBHuypb6i9BA68oepIRc"
+        "versionLogicalId": "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE"
       },
       "disconnect": {
         "handler": "src/handlers/disconnect.main",
@@ -1163,7 +1147,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "DisconnectLambdaVersionpvHpbqBdHvPEvGubQhR9nAX2OvajvCNQIhddYl4HD3E"
+        "versionLogicalId": "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU"
       },
       "notifyStream": {
         "handler": "src/handlers/notify-stream.main",
@@ -1185,7 +1169,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "NotifyStreamLambdaVersionU6Svnxn25SKtEUCcBCif20B2Zxz6Y7LhIz9NKFPrI"
+        "versionLogicalId": "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc"
       },
       "startProcess": {
         "handler": "src/handlers/start-process.main",
@@ -1211,7 +1195,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "StartProcessLambdaVersionBsTlDiFx7xxPhLzvkv5bZ3fZ1ke5YnxDhDioclXetjM"
+        "versionLogicalId": "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o"
       }
     },
     "resources": {
@@ -1292,7 +1276,7 @@
       "service": "backend",
       "package": {
         "individually": true,
-        "artifactDirectoryName": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z"
+        "artifactDirectoryName": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z"
       },
       "custom": {
         "$ref": "$[\"service\"][\"custom\"]"
@@ -1307,8 +1291,7 @@
         "region": "us-east-1",
         "environment": {
           "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-          "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
-          "QUEUE_CREATE_PROCESS_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
+          "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
           "APP_STAGE": "local"
         },
         "apiGateway": {
@@ -1507,7 +1490,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z",
+    "artifactDirectoryName": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z",
     "artifact": ""
   }
 }
