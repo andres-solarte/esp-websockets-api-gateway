@@ -1,4 +1,4 @@
-createEmision:
+startProcess:
   handler: src/handlers/start-process.main
   events:
     - http:

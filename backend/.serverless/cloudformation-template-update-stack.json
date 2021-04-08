@@ -56,40 +56,34 @@
         }
       }
     },
-    "ConnectWSLogGroup": {
+    "ConnectLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-connectWS"
+        "LogGroupName": "/aws/lambda/backend-local-connect"
       }
     },
-    "DisconnectWSLogGroup": {
+    "CreateProcessLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-disconnectWS"
+        "LogGroupName": "/aws/lambda/backend-local-createProcess"
       }
     },
-    "CreateEmisionLogGroup": {
+    "DisconnectLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-createEmision"
+        "LogGroupName": "/aws/lambda/backend-local-disconnect"
       }
     },
-    "NotifyLogGroup": {
+    "NotifyStreamLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-notify"
+        "LogGroupName": "/aws/lambda/backend-local-notifyStream"
       }
     },
-    "StartStepFunctionLogGroup": {
+    "StartProcessLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-startStepFunction"
-      }
-    },
-    "ConsumeEmisionServiceLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/backend-local-consumeEmisionService"
+        "LogGroupName": "/aws/lambda/backend-local-startProcess"
       }
     },
     "IamRoleLambdaExecution": {
@@ -117,7 +111,8 @@
               "Fn::Join": [
                 "-",
                 [
-                  "backend-local",
+                  "backend",
+                  "local",
                   "lambda"
                 ]
               ]
@@ -151,17 +146,29 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "sqs:SendMessage",
-                    "sqs:DeleteMessage"
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query"
                   ],
                   "Resource": [
                     {
                       "Fn::GetAtt": [
-                        "CreateEmissionSqsQueue",
+                        "DynamoDBTableProcessCreationStatus",
                         "Arn"
                       ]
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sqs:SendMessage",
+                    "sqs:DeleteMessage"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+                  }
                 },
                 {
                   "Effect": "Allow",
@@ -181,6 +188,36 @@
                       "Fn::Sub": "arn:${AWS::Partition}:execute-api:*:*:*/@connections/*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:GetRecords",
+                    "dynamodb:GetShardIterator",
+                    "dynamodb:DescribeStream",
+                    "dynamodb:ListStreams"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "DynamoDBTableProcessCreationStatus",
+                        "StreamArn"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sqs:ReceiveMessage",
+                    "sqs:DeleteMessage",
+                    "sqs:GetQueueAttributes"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+                    }
+                  ]
                 }
               ]
             }
@@ -191,7 +228,8 @@
           "Fn::Join": [
             "-",
             [
-              "backend-local",
+              "backend",
+              "local",
               {
                 "Ref": "AWS::Region"
               },
@@ -201,17 +239,17 @@
         }
       }
     },
-    "ConnectWSLambdaFunction": {
+    "ConnectLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/connectWS.zip"
+          "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/connect.zip"
         },
-        "FunctionName": "backend-local-connectWS",
-        "Handler": "connectWS.main",
+        "FunctionName": "backend-local-connect",
+        "Handler": "src/handlers/connect.main",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -220,34 +258,45 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+            "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "QUEUE_CREATE_PROCESS_URL": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "APP_STAGE": "local"
+          }
+        }
       },
       "DependsOn": [
-        "ConnectWSLogGroup",
-        "IamRoleLambdaExecution"
+        "ConnectLogGroup"
       ]
     },
-    "ConnectWSLambdaVersionHJZMjtjFiHXmPzUVzj8Et7JcLQOGD7HazUhaGSkfk": {
+    "ConnectLambdaVersionx1IOagbnNPg7ACufBzdr5FvM2Et4dQ7Gux9DGufikO4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "ConnectWSLambdaFunction"
+          "Ref": "ConnectLambdaFunction"
         },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
+        "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
       }
     },
-    "DisconnectWSLambdaFunction": {
+    "CreateProcessLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/disconnectWS.zip"
+          "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/createProcess.zip"
         },
-        "FunctionName": "backend-local-disconnectWS",
-        "Handler": "disconnectWS.main",
+        "FunctionName": "backend-local-createProcess",
+        "Handler": "src/handlers/create-process.main",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -256,34 +305,45 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+            "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "QUEUE_CREATE_PROCESS_URL": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "APP_STAGE": "local"
+          }
+        }
       },
       "DependsOn": [
-        "DisconnectWSLogGroup",
-        "IamRoleLambdaExecution"
+        "CreateProcessLogGroup"
       ]
     },
-    "DisconnectWSLambdaVersionfaxTcEJk7tzjJ1V3jvadfxzwprCkSPbALNk38uEEo": {
+    "CreateProcessLambdaVersionWBLA0iGZLvpuRk1IBIzAodPBHuypb6i9BA68oepIRc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "DisconnectWSLambdaFunction"
+          "Ref": "CreateProcessLambdaFunction"
         },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
+        "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
       }
     },
-    "CreateEmisionLambdaFunction": {
+    "DisconnectLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/createEmision.zip"
+          "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/disconnect.zip"
         },
-        "FunctionName": "backend-local-createEmision",
-        "Handler": "createEmision.main",
+        "FunctionName": "backend-local-disconnect",
+        "Handler": "src/handlers/disconnect.main",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -292,34 +352,45 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+            "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "QUEUE_CREATE_PROCESS_URL": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "APP_STAGE": "local"
+          }
+        }
       },
       "DependsOn": [
-        "CreateEmisionLogGroup",
-        "IamRoleLambdaExecution"
+        "DisconnectLogGroup"
       ]
     },
-    "CreateEmisionLambdaVersion7UmBeJBVwScnni71zu1iv9XpFyGAv8OugqgPzSze4lo": {
+    "DisconnectLambdaVersionpvHpbqBdHvPEvGubQhR9nAX2OvajvCNQIhddYl4HD3E": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "CreateEmisionLambdaFunction"
+          "Ref": "DisconnectLambdaFunction"
         },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
+        "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
       }
     },
-    "NotifyLambdaFunction": {
+    "NotifyStreamLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/notify.zip"
+          "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/notifyStream.zip"
         },
-        "FunctionName": "backend-local-notify",
-        "Handler": "notify.main",
+        "FunctionName": "backend-local-notifyStream",
+        "Handler": "src/handlers/notify-stream.main",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -328,34 +399,45 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+            "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "QUEUE_CREATE_PROCESS_URL": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "APP_STAGE": "local"
+          }
+        }
       },
       "DependsOn": [
-        "NotifyLogGroup",
-        "IamRoleLambdaExecution"
+        "NotifyStreamLogGroup"
       ]
     },
-    "NotifyLambdaVersionKu3c6oJgCsJ4WmWOQHQBTs55gyVCSR7MWMT4ZaWNYQ": {
+    "NotifyStreamLambdaVersionU6Svnxn25SKtEUCcBCif20B2Zxz6Y7LhIz9NKFPrI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "NotifyLambdaFunction"
+          "Ref": "NotifyStreamLambdaFunction"
         },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
+        "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
       }
     },
-    "StartStepFunctionLambdaFunction": {
+    "StartProcessLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/startStepFunction.zip"
+          "S3Key": "serverless/backend/local/1617890552592-2021-04-08T14:02:32.592Z/startProcess.zip"
         },
-        "FunctionName": "backend-local-startStepFunction",
-        "Handler": "notify.main",
+        "FunctionName": "backend-local-startProcess",
+        "Handler": "src/handlers/start-process.main",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -364,57 +446,32 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+            "CREATE_PROCESS_SQS_QUEUE_ENDPOINT": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "QUEUE_CREATE_PROCESS_URL": {
+              "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+            },
+            "APP_STAGE": "local"
+          }
+        }
       },
       "DependsOn": [
-        "StartStepFunctionLogGroup",
-        "IamRoleLambdaExecution"
+        "StartProcessLogGroup"
       ]
     },
-    "StartStepFunctionLambdaVersionSwC9jN7eAlT3Q1OZbTdNOJbnDneZx5APFqOOXcdWo": {
+    "StartProcessLambdaVersionBsTlDiFx7xxPhLzvkv5bZ3fZ1ke5YnxDhDioclXetjM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "StartStepFunctionLambdaFunction"
+          "Ref": "StartProcessLambdaFunction"
         },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
-      }
-    },
-    "ConsumeEmisionServiceLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/backend/local/1617713629480-2021-04-06T12:53:49.480Z/consumeEmisionService.zip"
-        },
-        "FunctionName": "backend-local-consumeEmisionService",
-        "Handler": "consumeEmisionService.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs12.x",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "ConsumeEmisionServiceLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "ConsumeEmisionServiceLambdaVersionRKd9GnCxdEAW09FqXNiYGqgSqitRdtK4kw4OWJsmso": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "ConsumeEmisionServiceLambdaFunction"
-        },
-        "CodeSha256": "AeaYAuDPyxw5QRaCFE2VI/sisE2BHkX9idnJw+Jy07Q="
+        "CodeSha256": "rJ9sG3kxucpGxv3BKelpL7RdLwtrIn2xp6HnT8iNtrM="
       }
     },
     "ApiGatewayRestApi": {
@@ -430,7 +487,7 @@
         "MinimumCompressionSize": 1024
       }
     },
-    "ApiGatewayResourceEmission": {
+    "ApiGatewayResourceProcess": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -439,19 +496,45 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "emission",
+        "PathPart": "process",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodEmissionPost": {
+    "ApiGatewayResourceProcessUuidVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceProcess"
+        },
+        "PathPart": "{uuid}",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceProcessUuidVarStart": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceProcessUuidVar"
+        },
+        "PathPart": "start",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodProcessUuidVarStartPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "POST",
-        "RequestParameters": {},
+        "RequestParameters": {
+          "method.request.path.uuid": true
+        },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceEmission"
+          "Ref": "ApiGatewayResourceProcessUuidVarStart"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -476,7 +559,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "CreateEmisionLambdaFunction",
+                    "StartProcessLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -488,7 +571,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1617713615883": {
+    "ApiGatewayDeployment1617890540663": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -497,15 +580,15 @@
         "StageName": "local"
       },
       "DependsOn": [
-        "ApiGatewayMethodEmissionPost"
+        "ApiGatewayMethodProcessUuidVarStartPost"
       ]
     },
-    "CreateEmisionLambdaPermissionApiGateway": {
+    "StartProcessLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "CreateEmisionLambdaFunction",
+            "StartProcessLambdaFunction",
             "Arn"
           ]
         },
@@ -546,7 +629,7 @@
         "ProtocolType": "WEBSOCKET"
       }
     },
-    "ConnectWSWebsocketsIntegration": {
+    "ConnectWebsocketsIntegration": {
       "Type": "AWS::ApiGatewayV2::Integration",
       "Properties": {
         "ApiId": {
@@ -568,7 +651,7 @@
               ":lambda:path/2015-03-31/functions/",
               {
                 "Fn::GetAtt": [
-                  "ConnectWSLambdaFunction",
+                  "ConnectLambdaFunction",
                   "Arn"
                 ]
               },
@@ -578,7 +661,7 @@
         }
       }
     },
-    "DisconnectWSWebsocketsIntegration": {
+    "DisconnectWebsocketsIntegration": {
       "Type": "AWS::ApiGatewayV2::Integration",
       "Properties": {
         "ApiId": {
@@ -600,7 +683,7 @@
               ":lambda:path/2015-03-31/functions/",
               {
                 "Fn::GetAtt": [
-                  "DisconnectWSLambdaFunction",
+                  "DisconnectLambdaFunction",
                   "Arn"
                 ]
               },
@@ -610,16 +693,16 @@
         }
       }
     },
-    "ConnectWSLambdaPermissionWebsockets": {
+    "ConnectLambdaPermissionWebsockets": {
       "Type": "AWS::Lambda::Permission",
       "DependsOn": [
         "WebsocketsApi",
-        "ConnectWSLambdaFunction"
+        "ConnectLambdaFunction"
       ],
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "ConnectWSLambdaFunction",
+            "ConnectLambdaFunction",
             "Arn"
           ]
         },
@@ -627,16 +710,16 @@
         "Principal": "apigateway.amazonaws.com"
       }
     },
-    "DisconnectWSLambdaPermissionWebsockets": {
+    "DisconnectLambdaPermissionWebsockets": {
       "Type": "AWS::Lambda::Permission",
       "DependsOn": [
         "WebsocketsApi",
-        "DisconnectWSLambdaFunction"
+        "DisconnectLambdaFunction"
       ],
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "DisconnectWSLambdaFunction",
+            "DisconnectLambdaFunction",
             "Arn"
           ]
         },
@@ -658,7 +741,7 @@
             [
               "integrations",
               {
-                "Ref": "ConnectWSWebsocketsIntegration"
+                "Ref": "ConnectWebsocketsIntegration"
               }
             ]
           ]
@@ -679,7 +762,7 @@
             [
               "integrations",
               {
-                "Ref": "DisconnectWSWebsocketsIntegration"
+                "Ref": "DisconnectWebsocketsIntegration"
               }
             ]
           ]
@@ -695,11 +778,11 @@
         "StageName": "local",
         "Description": "Serverless Websockets",
         "DeploymentId": {
-          "Ref": "WebsocketsDeploymentxatS0d5t8Ep5Jh3Ckfbaw20yBJGH3WNoY0933WEk0"
+          "Ref": "WebsocketsDeploymentYVPpNNusckvf4ZVAf7dXf1pzlu3lYJcQjrKSLjIel0"
         }
       }
     },
-    "WebsocketsDeploymentxatS0d5t8Ep5Jh3Ckfbaw20yBJGH3WNoY0933WEk0": {
+    "WebsocketsDeploymentYVPpNNusckvf4ZVAf7dXf1pzlu3lYJcQjrKSLjIel0": {
       "Type": "AWS::ApiGatewayV2::Deployment",
       "DependsOn": [
         "SconnectWebsocketsRoute",
@@ -712,25 +795,92 @@
         "Description": "Serverless Websockets"
       }
     },
-    "CreateEmissionDlqSqsQueue": {
+    "NotifyStreamEventSourceMappingDynamodbDynamoDBTableProcessCreationStatus": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "IamRoleLambdaExecution"
+      ],
+      "Properties": {
+        "BatchSize": 10,
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "DynamoDBTableProcessCreationStatus",
+            "StreamArn"
+          ]
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "NotifyStreamLambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "TRIM_HORIZON",
+        "Enabled": true
+      }
+    },
+    "CreateProcessEventSourceMappingSQSBackendsqslocalqueuecreateprocessfifo": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "IamRoleLambdaExecution"
+      ],
+      "Properties": {
+        "BatchSize": 10,
+        "EventSourceArn": {
+          "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CreateProcessLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Enabled": true
+      }
+    },
+    "DynamoDBTableProcessCreationStatus": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "uuid",
+            "AttributeType": "S"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": [
+          {
+            "AttributeName": "uuid",
+            "KeyType": "HASH"
+          }
+        ],
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "StreamSpecification": {
+          "StreamViewType": "NEW_AND_OLD_IMAGES"
+        },
+        "TableName": "backend-dynamodb-local-table-process-creation-status"
+      }
+    },
+    "CreateProcessDlqSqsQueue": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
-        "QueueName": "create-emission-sqs-dql.fifo",
+        "QueueName": "backend-sqs-local-queue-create-process-dlq.fifo",
         "FifoQueue": true,
         "ContentBasedDeduplication": true,
         "KmsMasterKeyId": "alias/aws/sqs",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "create-emission-sqs-dql.fifo"
+            "Value": "backend-sqs-local-queue-create-process-dlq.fifo"
           }
         ]
       }
     },
-    "CreateEmissionSqsQueue": {
+    "CreateProcessSqsQueue": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
-        "QueueName": "create-emission-sqs.fifo",
+        "QueueName": "backend-sqs-local-queue-create-process.fifo",
         "FifoQueue": true,
         "ContentBasedDeduplication": true,
         "VisibilityTimeout": 60,
@@ -739,7 +889,7 @@
         "RedrivePolicy": {
           "deadLetterTargetArn": {
             "Fn::GetAtt": [
-              "CreateEmissionDlqSqsQueue",
+              "CreateProcessDlqSqsQueue",
               "Arn"
             ]
           },
@@ -748,7 +898,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "create-emission-sqs.fifo"
+            "Value": "backend-sqs-local-queue-create-process.fifo"
           }
         ]
       }
@@ -760,40 +910,34 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "ConnectWSLambdaFunctionQualifiedArn": {
+    "ConnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConnectWSLambdaVersionHJZMjtjFiHXmPzUVzj8Et7JcLQOGD7HazUhaGSkfk"
+        "Ref": "ConnectLambdaVersionx1IOagbnNPg7ACufBzdr5FvM2Et4dQ7Gux9DGufikO4"
       }
     },
-    "DisconnectWSLambdaFunctionQualifiedArn": {
+    "CreateProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DisconnectWSLambdaVersionfaxTcEJk7tzjJ1V3jvadfxzwprCkSPbALNk38uEEo"
+        "Ref": "CreateProcessLambdaVersionWBLA0iGZLvpuRk1IBIzAodPBHuypb6i9BA68oepIRc"
       }
     },
-    "CreateEmisionLambdaFunctionQualifiedArn": {
+    "DisconnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateEmisionLambdaVersion7UmBeJBVwScnni71zu1iv9XpFyGAv8OugqgPzSze4lo"
+        "Ref": "DisconnectLambdaVersionpvHpbqBdHvPEvGubQhR9nAX2OvajvCNQIhddYl4HD3E"
       }
     },
-    "NotifyLambdaFunctionQualifiedArn": {
+    "NotifyStreamLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "NotifyLambdaVersionKu3c6oJgCsJ4WmWOQHQBTs55gyVCSR7MWMT4ZaWNYQ"
+        "Ref": "NotifyStreamLambdaVersionU6Svnxn25SKtEUCcBCif20B2Zxz6Y7LhIz9NKFPrI"
       }
     },
-    "StartStepFunctionLambdaFunctionQualifiedArn": {
+    "StartProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "StartStepFunctionLambdaVersionSwC9jN7eAlT3Q1OZbTdNOJbnDneZx5APFqOOXcdWo"
-      }
-    },
-    "ConsumeEmisionServiceLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "ConsumeEmisionServiceLambdaVersionRKd9GnCxdEAW09FqXNiYGqgSqitRdtK4kw4OWJsmso"
+        "Ref": "StartProcessLambdaVersionBsTlDiFx7xxPhLzvkv5bZ3fZ1ke5YnxDhDioclXetjM"
       }
     },
     "ServiceEndpoint": {
