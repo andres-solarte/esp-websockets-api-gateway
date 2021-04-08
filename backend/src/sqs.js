@@ -1,6 +1,6 @@
 const SQS = require('aws-sdk/clients/sqs')
 
-const { QUEUE_CREATE_PROCESS_URL } = process.env
+const { CREATE_PROCESS_SQS_QUEUE_URL } = process.env
 
 const removeFromQueue = (receiptHandle) => {
   const sqs = new SQS({
@@ -11,7 +11,7 @@ const removeFromQueue = (receiptHandle) => {
   try {
     await sqs
       .deleteMessage({
-        QueueUrl: QUEUE_CREATE_PROCESS_URL,
+        QueueUrl: CREATE_PROCESS_SQS_QUEUE_URL,
         ReceiptHandle: receiptHandle
       })
       .promise()

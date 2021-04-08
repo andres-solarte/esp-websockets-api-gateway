@@ -16,7 +16,7 @@ export const main = async event => {
 
   await sqsService
     .sendMessage({
-      QueueUrl: this.createIaxisQuotationQueueUrl,
+      QueueUrl: process.env.CREATE_PROCESS_SQS_QUEUE_URL,
       MessageBody: uuid,
       MessageGroupId: messageGroupId,
     })

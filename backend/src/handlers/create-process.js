@@ -22,6 +22,9 @@ export const main = async (event, context, callback) => {
     console.log('World!')
   }, 20000)
 
+  //Actualiza resultado de creación de proceso
+  await updateConnection(uuid, connectionId, 'CREATED_PROCESS')
+
   callback(null, {
     statusCode: 200,
     body: 'all ok',

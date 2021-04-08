@@ -6,6 +6,7 @@ AWS.config.update({
 
 export const main = async (event, context, callback) => {
   try {
+    console.log(JSON.stringify(event, null, 2))
     event.Records.filter(record => record.eventName === 'MODIFY').forEach(record => {
       //Lógica para saber qué mensaje enviar dependiendo del evento del stream
       console.log(JSON.stringify(record, null, 2))
