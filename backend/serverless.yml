@@ -1,4 +1,4 @@
-service: backend
+service: esp-ws-api-gateway
 
 package:
   individually: true

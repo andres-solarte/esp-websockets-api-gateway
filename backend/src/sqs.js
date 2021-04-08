@@ -2,7 +2,7 @@ const SQS = require('aws-sdk/clients/sqs')
 
 const { CREATE_PROCESS_SQS_QUEUE_URL } = process.env
 
-const removeFromQueue = (receiptHandle) => {
+const removeFromQueue = async (receiptHandle) => {
   const sqs = new SQS({
     region: 'us-east-1',
     apiVersion: '2012-11-05'

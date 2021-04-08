@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "backend",
+    "service": "esp-ws-api-gateway",
     "serviceObject": {
-      "name": "backend"
+      "name": "esp-ws-api-gateway"
     },
     "provider": {
       "stage": "local",
@@ -11,8 +11,8 @@
       "runtime": "nodejs12.x",
       "region": "us-east-1",
       "environment": {
-        "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-        "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
+        "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
+        "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
         "APP_STAGE": "local"
       },
       "apiGateway": {
@@ -43,7 +43,7 @@
             "sqs:DeleteMessage"
           ],
           "Resource": {
-            "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+            "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
           }
         },
         {
@@ -117,31 +117,31 @@
           "ConnectLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/backend-local-connect"
+              "LogGroupName": "/aws/lambda/esp-ws-api-gateway-local-connect"
             }
           },
           "CreateProcessLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/backend-local-createProcess"
+              "LogGroupName": "/aws/lambda/esp-ws-api-gateway-local-createProcess"
             }
           },
           "DisconnectLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/backend-local-disconnect"
+              "LogGroupName": "/aws/lambda/esp-ws-api-gateway-local-disconnect"
             }
           },
           "NotifyStreamLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/backend-local-notifyStream"
+              "LogGroupName": "/aws/lambda/esp-ws-api-gateway-local-notifyStream"
             }
           },
           "StartProcessLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/backend-local-startProcess"
+              "LogGroupName": "/aws/lambda/esp-ws-api-gateway-local-startProcess"
             }
           },
           "IamRoleLambdaExecution": {
@@ -169,7 +169,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "backend",
+                        "esp-ws-api-gateway",
                         "local",
                         "lambda"
                       ]
@@ -186,7 +186,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/backend-local*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/esp-ws-api-gateway-local*:*"
                           }
                         ]
                       },
@@ -197,7 +197,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/backend-local*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/esp-ws-api-gateway-local*:*:*"
                           }
                         ]
                       },
@@ -247,7 +247,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+                            "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                           }
                         ]
                       }
@@ -260,7 +260,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "backend",
+                    "esp-ws-api-gateway",
                     "local",
                     {
                       "Ref": "AWS::Region"
@@ -278,9 +278,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/connect.zip"
+                "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/connect.zip"
               },
-              "FunctionName": "backend-local-connect",
+              "FunctionName": "esp-ws-api-gateway-local-connect",
               "Handler": "src/handlers/connect.main",
               "MemorySize": 1024,
               "Role": {
@@ -293,9 +293,9 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+                  "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
                   "CREATE_PROCESS_SQS_QUEUE_URL": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
                 }
@@ -305,14 +305,14 @@
               "ConnectLogGroup"
             ]
           },
-          "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI": {
+          "ConnectLambdaVersion3v08mJmuLY9ffvjBonH69FmEtMel5zbGYQYXt4xfI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConnectLambdaFunction"
               },
-              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
+              "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
             }
           },
           "CreateProcessLambdaFunction": {
@@ -322,9 +322,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/createProcess.zip"
+                "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/createProcess.zip"
               },
-              "FunctionName": "backend-local-createProcess",
+              "FunctionName": "esp-ws-api-gateway-local-createProcess",
               "Handler": "src/handlers/create-process.main",
               "MemorySize": 1024,
               "Role": {
@@ -337,9 +337,9 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+                  "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
                   "CREATE_PROCESS_SQS_QUEUE_URL": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
                 }
@@ -349,14 +349,14 @@
               "CreateProcessLogGroup"
             ]
           },
-          "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE": {
+          "CreateProcessLambdaVersion4sqnyOpLXbTYIqPShnu5loZkBsuE5kZ5ZwCaDMS6KY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateProcessLambdaFunction"
               },
-              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
+              "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
             }
           },
           "DisconnectLambdaFunction": {
@@ -366,9 +366,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/disconnect.zip"
+                "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/disconnect.zip"
               },
-              "FunctionName": "backend-local-disconnect",
+              "FunctionName": "esp-ws-api-gateway-local-disconnect",
               "Handler": "src/handlers/disconnect.main",
               "MemorySize": 1024,
               "Role": {
@@ -381,9 +381,9 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+                  "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
                   "CREATE_PROCESS_SQS_QUEUE_URL": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
                 }
@@ -393,14 +393,14 @@
               "DisconnectLogGroup"
             ]
           },
-          "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU": {
+          "DisconnectLambdaVersiony54MqmbooR0ctONAyRtEqZk5xGPbCMrTcQ7C5pV4tUY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DisconnectLambdaFunction"
               },
-              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
+              "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
             }
           },
           "NotifyStreamLambdaFunction": {
@@ -410,9 +410,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/notifyStream.zip"
+                "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/notifyStream.zip"
               },
-              "FunctionName": "backend-local-notifyStream",
+              "FunctionName": "esp-ws-api-gateway-local-notifyStream",
               "Handler": "src/handlers/notify-stream.main",
               "MemorySize": 1024,
               "Role": {
@@ -425,9 +425,9 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+                  "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
                   "CREATE_PROCESS_SQS_QUEUE_URL": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
                 }
@@ -437,14 +437,14 @@
               "NotifyStreamLogGroup"
             ]
           },
-          "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc": {
+          "NotifyStreamLambdaVersionN4oOx1BKo6CFrBzkqh6ap2TnH5arg8IXxlFQ1ovw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "NotifyStreamLambdaFunction"
               },
-              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
+              "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
             }
           },
           "StartProcessLambdaFunction": {
@@ -454,9 +454,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z/startProcess.zip"
+                "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/startProcess.zip"
               },
-              "FunctionName": "backend-local-startProcess",
+              "FunctionName": "esp-ws-api-gateway-local-startProcess",
               "Handler": "src/handlers/start-process.main",
               "MemorySize": 1024,
               "Role": {
@@ -469,9 +469,9 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
+                  "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
                   "CREATE_PROCESS_SQS_QUEUE_URL": {
-                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+                    "Fn::Sub": "https://sqs.${AWS::Region}.amazonaws.com/${AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   },
                   "APP_STAGE": "local"
                 }
@@ -481,20 +481,20 @@
               "StartProcessLogGroup"
             ]
           },
-          "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o": {
+          "StartProcessLambdaVersionYk7wVBUrm1B6DA2MseNsupARaTflby5fBzk5aLeIBo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "StartProcessLambdaFunction"
               },
-              "CodeSha256": "MwbFifsuXHLtS8NZbRZriTw16KLtUKzG9MdP33L7Ulw="
+              "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "local-backend",
+              "Name": "local-esp-ws-api-gateway",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -588,7 +588,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1617894346152": {
+          "ApiGatewayDeployment1617911729355": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -640,7 +640,7 @@
           "WebsocketsApi": {
             "Type": "AWS::ApiGatewayV2::Api",
             "Properties": {
-              "Name": "local-backend-websockets",
+              "Name": "local-esp-ws-api-gateway-websockets",
               "RouteSelectionExpression": "$request.body.action",
               "Description": "Serverless Websockets",
               "ProtocolType": "WEBSOCKET"
@@ -795,11 +795,11 @@
               "StageName": "local",
               "Description": "Serverless Websockets",
               "DeploymentId": {
-                "Ref": "WebsocketsDeploymentYVPpNNusckvf4ZVAf7dXf1pzlu3lYJcQjrKSLjIel0"
+                "Ref": "WebsocketsDeploymentvoptbjzBm50hOuES2HI9HjeiTLUL2poohA0VgSMHaI"
               }
             }
           },
-          "WebsocketsDeploymentYVPpNNusckvf4ZVAf7dXf1pzlu3lYJcQjrKSLjIel0": {
+          "WebsocketsDeploymentvoptbjzBm50hOuES2HI9HjeiTLUL2poohA0VgSMHaI": {
             "Type": "AWS::ApiGatewayV2::Deployment",
             "DependsOn": [
               "SconnectWebsocketsRoute",
@@ -835,7 +835,7 @@
               "Enabled": true
             }
           },
-          "CreateProcessEventSourceMappingSQSBackendsqslocalqueuecreateprocessfifo": {
+          "CreateProcessEventSourceMappingSQSEspwsapigatewaysqslocalqueuecreateprocessfifo": {
             "Type": "AWS::Lambda::EventSourceMapping",
             "DependsOn": [
               "IamRoleLambdaExecution"
@@ -843,7 +843,7 @@
             "Properties": {
               "BatchSize": 10,
               "EventSourceArn": {
-                "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+                "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
               },
               "FunctionName": {
                 "Fn::GetAtt": [
@@ -876,20 +876,20 @@
               "StreamSpecification": {
                 "StreamViewType": "NEW_AND_OLD_IMAGES"
               },
-              "TableName": "backend-dynamodb-local-table-process-creation-status"
+              "TableName": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status"
             }
           },
           "CreateProcessDlqSqsQueue": {
             "Type": "AWS::SQS::Queue",
             "Properties": {
-              "QueueName": "backend-sqs-local-queue-create-process-dlq.fifo",
+              "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo",
               "FifoQueue": true,
               "ContentBasedDeduplication": true,
               "KmsMasterKeyId": "alias/aws/sqs",
               "Tags": [
                 {
                   "Key": "Name",
-                  "Value": "backend-sqs-local-queue-create-process-dlq.fifo"
+                  "Value": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo"
                 }
               ]
             }
@@ -897,7 +897,7 @@
           "CreateProcessSqsQueue": {
             "Type": "AWS::SQS::Queue",
             "Properties": {
-              "QueueName": "backend-sqs-local-queue-create-process.fifo",
+              "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
               "FifoQueue": true,
               "ContentBasedDeduplication": true,
               "VisibilityTimeout": 60,
@@ -915,7 +915,7 @@
               "Tags": [
                 {
                   "Key": "Name",
-                  "Value": "backend-sqs-local-queue-create-process.fifo"
+                  "Value": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                 }
               ]
             }
@@ -930,31 +930,31 @@
           "ConnectLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI"
+              "Ref": "ConnectLambdaVersion3v08mJmuLY9ffvjBonH69FmEtMel5zbGYQYXt4xfI"
             }
           },
           "CreateProcessLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE"
+              "Ref": "CreateProcessLambdaVersion4sqnyOpLXbTYIqPShnu5loZkBsuE5kZ5ZwCaDMS6KY"
             }
           },
           "DisconnectLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU"
+              "Ref": "DisconnectLambdaVersiony54MqmbooR0ctONAyRtEqZk5xGPbCMrTcQ7C5pV4tUY"
             }
           },
           "NotifyStreamLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc"
+              "Ref": "NotifyStreamLambdaVersionN4oOx1BKo6CFrBzkqh6ap2TnH5arg8IXxlFQ1ovw"
             }
           },
           "StartProcessLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o"
+              "Ref": "StartProcessLambdaVersionYk7wVBUrm1B6DA2MseNsupARaTflby5fBzk5aLeIBo"
             }
           },
           "ServiceEndpoint": {
@@ -1076,11 +1076,11 @@
     },
     "custom": {
       "variables": {
-        "create-process-sqs-queue-prefix": "backend-sqs-local-queue-create-process",
-        "create-process-sqs-queue-name": "backend-sqs-local-queue-create-process.fifo",
-        "create-process-sqs-queue-arn": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:backend-sqs-local-queue-create-process.fifo",
-        "create-process-dlq-sqs-queue-name": "backend-sqs-local-queue-create-process-dlq.fifo",
-        "create-process-sqs-queue-url": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo"
+        "create-process-sqs-queue-prefix": "esp-ws-api-gateway-sqs-local-queue-create-process",
+        "create-process-sqs-queue-name": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
+        "create-process-sqs-queue-arn": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
+        "create-process-dlq-sqs-queue-name": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo",
+        "create-process-sqs-queue-url": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
       },
       "prune": {
         "automatic": true,
@@ -1103,7 +1103,7 @@
             }
           }
         ],
-        "name": "backend-local-connect",
+        "name": "esp-ws-api-gateway-local-connect",
         "package": {
           "artifact": "C:\\Users\\Maritza\\Documents\\pruebas\\esp-websockets-api-gateway\\backend\\.serverless\\connect.zip"
         },
@@ -1111,16 +1111,16 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "ConnectLambdaVersion7HSmdBbHRN7G2K23rZOwKeP1RPshYeZoS399mapI"
+        "versionLogicalId": "ConnectLambdaVersion3v08mJmuLY9ffvjBonH69FmEtMel5zbGYQYXt4xfI"
       },
       "createProcess": {
         "handler": "src/handlers/create-process.main",
         "events": [
           {
-            "sqs": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+            "sqs": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
           }
         ],
-        "name": "backend-local-createProcess",
+        "name": "esp-ws-api-gateway-local-createProcess",
         "package": {
           "artifact": "C:\\Users\\Maritza\\Documents\\pruebas\\esp-websockets-api-gateway\\backend\\.serverless\\createProcess.zip"
         },
@@ -1128,7 +1128,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "CreateProcessLambdaVersionKB3efdLcE2RwrqGex0cTnP4sshSoYqg7r7Hho0qa0GE"
+        "versionLogicalId": "CreateProcessLambdaVersion4sqnyOpLXbTYIqPShnu5loZkBsuE5kZ5ZwCaDMS6KY"
       },
       "disconnect": {
         "handler": "src/handlers/disconnect.main",
@@ -1139,7 +1139,7 @@
             }
           }
         ],
-        "name": "backend-local-disconnect",
+        "name": "esp-ws-api-gateway-local-disconnect",
         "package": {
           "artifact": "C:\\Users\\Maritza\\Documents\\pruebas\\esp-websockets-api-gateway\\backend\\.serverless\\disconnect.zip"
         },
@@ -1147,7 +1147,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "DisconnectLambdaVersioncXmGUQE0YsL65s3SxNF23aW0WnNPlHth684qNDySlIU"
+        "versionLogicalId": "DisconnectLambdaVersiony54MqmbooR0ctONAyRtEqZk5xGPbCMrTcQ7C5pV4tUY"
       },
       "notifyStream": {
         "handler": "src/handlers/notify-stream.main",
@@ -1161,7 +1161,7 @@
             }
           }
         ],
-        "name": "backend-local-notifyStream",
+        "name": "esp-ws-api-gateway-local-notifyStream",
         "package": {
           "artifact": "C:\\Users\\Maritza\\Documents\\pruebas\\esp-websockets-api-gateway\\backend\\.serverless\\notifyStream.zip"
         },
@@ -1169,7 +1169,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "NotifyStreamLambdaVersion7mRyTovzXyHGWA0T0aViZuLqk6RGB694YrSZYjKc"
+        "versionLogicalId": "NotifyStreamLambdaVersionN4oOx1BKo6CFrBzkqh6ap2TnH5arg8IXxlFQ1ovw"
       },
       "startProcess": {
         "handler": "src/handlers/start-process.main",
@@ -1187,7 +1187,7 @@
             }
           }
         ],
-        "name": "backend-local-startProcess",
+        "name": "esp-ws-api-gateway-local-startProcess",
         "package": {
           "artifact": "C:\\Users\\Maritza\\Documents\\pruebas\\esp-websockets-api-gateway\\backend\\.serverless\\startProcess.zip"
         },
@@ -1195,7 +1195,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "StartProcessLambdaVersion2IIQw3Kng0UTHLJxvQWGbkZjtNHKAPutAGd5P7bx6o"
+        "versionLogicalId": "StartProcessLambdaVersionYk7wVBUrm1B6DA2MseNsupARaTflby5fBzk5aLeIBo"
       }
     },
     "resources": {
@@ -1222,20 +1222,20 @@
             "StreamSpecification": {
               "StreamViewType": "NEW_AND_OLD_IMAGES"
             },
-            "TableName": "backend-dynamodb-local-table-process-creation-status"
+            "TableName": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status"
           }
         },
         "CreateProcessDlqSqsQueue": {
           "Type": "AWS::SQS::Queue",
           "Properties": {
-            "QueueName": "backend-sqs-local-queue-create-process-dlq.fifo",
+            "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo",
             "FifoQueue": true,
             "ContentBasedDeduplication": true,
             "KmsMasterKeyId": "alias/aws/sqs",
             "Tags": [
               {
                 "Key": "Name",
-                "Value": "backend-sqs-local-queue-create-process-dlq.fifo"
+                "Value": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo"
               }
             ]
           }
@@ -1243,7 +1243,7 @@
         "CreateProcessSqsQueue": {
           "Type": "AWS::SQS::Queue",
           "Properties": {
-            "QueueName": "backend-sqs-local-queue-create-process.fifo",
+            "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
             "FifoQueue": true,
             "ContentBasedDeduplication": true,
             "VisibilityTimeout": 60,
@@ -1261,7 +1261,7 @@
             "Tags": [
               {
                 "Key": "Name",
-                "Value": "backend-sqs-local-queue-create-process.fifo"
+                "Value": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
               }
             ]
           }
@@ -1273,10 +1273,10 @@
     "serviceFilename": "serverless.yml",
     "layers": {},
     "initialServerlessConfig": {
-      "service": "backend",
+      "service": "esp-ws-api-gateway",
       "package": {
         "individually": true,
-        "artifactDirectoryName": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z"
+        "artifactDirectoryName": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z"
       },
       "custom": {
         "$ref": "$[\"service\"][\"custom\"]"
@@ -1290,8 +1290,8 @@
         "stage": "local",
         "region": "us-east-1",
         "environment": {
-          "PROCESS_CREATION_STATUS_TABLE": "backend-dynamodb-local-table-process-creation-status",
-          "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/backend-sqs-local-queue-create-process.fifo",
+          "PROCESS_CREATION_STATUS_TABLE": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status",
+          "CREATE_PROCESS_SQS_QUEUE_URL": "https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
           "APP_STAGE": "local"
         },
         "apiGateway": {
@@ -1322,7 +1322,7 @@
               "sqs:DeleteMessage"
             ],
             "Resource": [
-              "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+              "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
             ]
           },
           {
@@ -1353,7 +1353,7 @@
             "handler": "src/handlers/create-process.main",
             "events": [
               {
-                "sqs": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:backend-sqs-local-queue-create-process.fifo"
+                "sqs": "arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
               }
             ]
           }
@@ -1434,7 +1434,7 @@
                 "StreamSpecification": {
                   "StreamViewType": "NEW_AND_OLD_IMAGES"
                 },
-                "TableName": "backend-dynamodb-local-table-process-creation-status"
+                "TableName": "esp-ws-api-gateway-dynamodb-local-table-process-creation-status"
               }
             }
           }
@@ -1444,14 +1444,14 @@
             "CreateProcessDlqSqsQueue": {
               "Type": "AWS::SQS::Queue",
               "Properties": {
-                "QueueName": "backend-sqs-local-queue-create-process-dlq.fifo",
+                "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo",
                 "FifoQueue": true,
                 "ContentBasedDeduplication": true,
                 "KmsMasterKeyId": "alias/aws/sqs",
                 "Tags": [
                   {
                     "Key": "Name",
-                    "Value": "backend-sqs-local-queue-create-process-dlq.fifo"
+                    "Value": "esp-ws-api-gateway-sqs-local-queue-create-process-dlq.fifo"
                   }
                 ]
               }
@@ -1459,7 +1459,7 @@
             "CreateProcessSqsQueue": {
               "Type": "AWS::SQS::Queue",
               "Properties": {
-                "QueueName": "backend-sqs-local-queue-create-process.fifo",
+                "QueueName": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo",
                 "FifoQueue": true,
                 "ContentBasedDeduplication": true,
                 "VisibilityTimeout": 60,
@@ -1477,7 +1477,7 @@
                 "Tags": [
                   {
                     "Key": "Name",
-                    "Value": "backend-sqs-local-queue-create-process.fifo"
+                    "Value": "esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
                   }
                 ]
               }
@@ -1490,7 +1490,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/backend/local/1617894364746-2021-04-08T15:06:04.746Z",
+    "artifactDirectoryName": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z",
     "artifact": ""
   }
 }

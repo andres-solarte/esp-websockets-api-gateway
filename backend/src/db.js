@@ -8,15 +8,31 @@ const updateConnection = (uuid, connectionId, status) => {
   const updateParams = {
     TableName: PROCESS_CREATION_STATUS_TABLE,
     Key: { uuid },
-    UpdateExpression: 'set #uuid = :uuid, #connectionId = :connectionId, #status = :status',
+    UpdateExpression: 'set #timestamp = :timestamp, #connectionId = :connectionId, #status = :status',
     ExpressionAttributeNames: {
-      '#uuid': 'uuid',
+      '#timestamp': 'timestamp',
       '#connectionId': 'connectionId',
       '#status': 'status',
     },
     ExpressionAttributeValues: {
-      ':uuid': moment().toISOString(),
+      ':timestamp': moment().toISOString(),
       ':connectionId': connectionId,
+      ':status': status,
+    },
+  }
+
+  return documentClient.update(updateParams).promise()
+}
+
+const updateStatusByUuid = (uuid, status) => {
+  const updateParams = {
+    TableName: PROCESS_CREATION_STATUS_TABLE,
+    Key: { uuid },
+    UpdateExpression: 'set #status = :status',
+    ExpressionAttributeNames: {
+      '#status': 'status',
+    },
+    ExpressionAttributeValues: {
       ':status': status,
     },
   }
@@ -36,5 +52,6 @@ const deleteRecordFromDynamo = async uuid => {
 
 module.exports = {
   updateConnection,
+  updateStatusByUuid,
   deleteRecordFromDynamo,
 }

@@ -1,10 +1,10 @@
-import AWS from 'aws-sdk'
+//import AWS from 'aws-sdk'
 
-AWS.config.update({
-  region: process.env.REGION || 'us-east-1',
-})
+// AWS.config.update({
+//   region: process.env.REGION || 'us-east-1',
+// })
 
-module.exports.main = async (event, context, callback) => {
+module.exports.main = (event, context, callback) => {
   try {
     console.log(JSON.stringify(event, null, 2))
     event.Records.filter(record => record.eventName === 'MODIFY').forEach(record => {

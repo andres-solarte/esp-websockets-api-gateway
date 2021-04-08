@@ -14,11 +14,9 @@ module.exports.main = async event => {
 
   const params = {
     QueueUrl: process.env.CREATE_PROCESS_SQS_QUEUE_URL,
-    MessageBody: uuid,
+    MessageBody: JSON.stringify({ uuid }),
     MessageGroupId: messageGroupId,
   }
-
-  console.log(params)
 
   await sqs.sendMessage(params).promise()
 
