@@ -1,5 +1,5 @@
-const uuid = '123-abc'
-const webSocketUrl = `wss://2rwlhgclnl.execute-api.us-east-1.amazonaws.com/local?uuid=${uuid}`
+const uuid = '1234567890'
+const webSocketUrl = `wss://3xbn6yssi7.execute-api.us-east-1.amazonaws.com/local?uuid=${uuid}`
 
 let webSocket
 
