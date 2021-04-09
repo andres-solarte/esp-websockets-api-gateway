@@ -24,7 +24,7 @@ const updateConnection = (uuid, connectionId, status) => {
   return documentClient.update(updateParams).promise()
 }
 
-const updateStatusByUuid = (uuid, status) => {
+const updateStatusByUuid = async (uuid, status) => {
   const updateParams = {
     TableName: PROCESS_CREATION_STATUS_TABLE,
     Key: { uuid },
@@ -40,7 +40,9 @@ const updateStatusByUuid = (uuid, status) => {
   console.log('updateParams')
   console.log(updateParams)
 
-  return documentClient.update(updateParams).promise()
+  const response = await documentClient.update(updateParams).promise()
+  console.log('response', response)
+  return response
 }
 
 const deleteRecordFromDynamo = async uuid => {

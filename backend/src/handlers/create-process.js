@@ -13,13 +13,13 @@ module.exports.main = async (event, context, callback) => {
     //Crea registro en dynamo
     await updateStatusByUuid(uuid, 'CREATING_PROCESS')
 
-    await removeFromQueue(receiptHandle)
-
     //Simula crear proceso
     //await timeout(20000)
 
     //Actualiza resultado de creación de proceso
     await updateStatusByUuid(uuid, 'CREATED_PROCESS')
+
+    await removeFromQueue(receiptHandle)
   }
 
   callback(null, {
