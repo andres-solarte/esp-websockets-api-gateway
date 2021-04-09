@@ -246,7 +246,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/connect.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617926621645-2021-04-09T00:03:41.645Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-connect",
         "Handler": "src/handlers/connect.main",
@@ -273,14 +273,14 @@
         "ConnectLogGroup"
       ]
     },
-    "ConnectLambdaVersion3v08mJmuLY9ffvjBonH69FmEtMel5zbGYQYXt4xfI": {
+    "ConnectLambdaVersioncCGfqTPJrNZV90SC6vroyBzOyQsVbU9ndNrNbPOFo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConnectLambdaFunction"
         },
-        "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
+        "CodeSha256": "QkzBvkxMnbLiSJRcFC1Aid8CvD5/B0Wh80XFeWSPK7k="
       }
     },
     "CreateProcessLambdaFunction": {
@@ -290,7 +290,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/createProcess.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617926621645-2021-04-09T00:03:41.645Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-createProcess",
         "Handler": "src/handlers/create-process.main",
@@ -317,14 +317,14 @@
         "CreateProcessLogGroup"
       ]
     },
-    "CreateProcessLambdaVersion4sqnyOpLXbTYIqPShnu5loZkBsuE5kZ5ZwCaDMS6KY": {
+    "CreateProcessLambdaVersionQUEypmfji0uuFPvGh20CmOdwnApJGO1MBUr6YM8Nw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateProcessLambdaFunction"
         },
-        "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
+        "CodeSha256": "QkzBvkxMnbLiSJRcFC1Aid8CvD5/B0Wh80XFeWSPK7k="
       }
     },
     "DisconnectLambdaFunction": {
@@ -334,7 +334,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/disconnect.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617926621645-2021-04-09T00:03:41.645Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-disconnect",
         "Handler": "src/handlers/disconnect.main",
@@ -361,14 +361,14 @@
         "DisconnectLogGroup"
       ]
     },
-    "DisconnectLambdaVersiony54MqmbooR0ctONAyRtEqZk5xGPbCMrTcQ7C5pV4tUY": {
+    "DisconnectLambdaVersionm9n4owExwLTSWK9k7ru5vOMOhOY5OhbpWTFnhizgBQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DisconnectLambdaFunction"
         },
-        "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
+        "CodeSha256": "QkzBvkxMnbLiSJRcFC1Aid8CvD5/B0Wh80XFeWSPK7k="
       }
     },
     "NotifyStreamLambdaFunction": {
@@ -378,7 +378,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/notifyStream.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617926621645-2021-04-09T00:03:41.645Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-notifyStream",
         "Handler": "src/handlers/notify-stream.main",
@@ -405,14 +405,14 @@
         "NotifyStreamLogGroup"
       ]
     },
-    "NotifyStreamLambdaVersionN4oOx1BKo6CFrBzkqh6ap2TnH5arg8IXxlFQ1ovw": {
+    "NotifyStreamLambdaVersionWPNqQvYtRwyyYoObqoKYR7yvMoirMng3NLGrXlObQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "NotifyStreamLambdaFunction"
         },
-        "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
+        "CodeSha256": "QkzBvkxMnbLiSJRcFC1Aid8CvD5/B0Wh80XFeWSPK7k="
       }
     },
     "StartProcessLambdaFunction": {
@@ -422,7 +422,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617911749320-2021-04-08T19:55:49.320Z/startProcess.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617926621645-2021-04-09T00:03:41.645Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-startProcess",
         "Handler": "src/handlers/start-process.main",
@@ -449,14 +449,14 @@
         "StartProcessLogGroup"
       ]
     },
-    "StartProcessLambdaVersionYk7wVBUrm1B6DA2MseNsupARaTflby5fBzk5aLeIBo": {
+    "StartProcessLambdaVersionNsDLnpNhTyHp69mKcjuy7XYwh4mlby1zgpzifkqipNM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "StartProcessLambdaFunction"
         },
-        "CodeSha256": "UUHILboFOTk1NkHHSyjs4cEFvxuyAoOIBfZuQ+IMkwQ="
+        "CodeSha256": "QkzBvkxMnbLiSJRcFC1Aid8CvD5/B0Wh80XFeWSPK7k="
       }
     },
     "ApiGatewayRestApi": {
@@ -556,7 +556,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1617911729355": {
+    "ApiGatewayDeployment1617926614977": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -898,31 +898,31 @@
     "ConnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConnectLambdaVersion3v08mJmuLY9ffvjBonH69FmEtMel5zbGYQYXt4xfI"
+        "Ref": "ConnectLambdaVersioncCGfqTPJrNZV90SC6vroyBzOyQsVbU9ndNrNbPOFo"
       }
     },
     "CreateProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateProcessLambdaVersion4sqnyOpLXbTYIqPShnu5loZkBsuE5kZ5ZwCaDMS6KY"
+        "Ref": "CreateProcessLambdaVersionQUEypmfji0uuFPvGh20CmOdwnApJGO1MBUr6YM8Nw"
       }
     },
     "DisconnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DisconnectLambdaVersiony54MqmbooR0ctONAyRtEqZk5xGPbCMrTcQ7C5pV4tUY"
+        "Ref": "DisconnectLambdaVersionm9n4owExwLTSWK9k7ru5vOMOhOY5OhbpWTFnhizgBQ"
       }
     },
     "NotifyStreamLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "NotifyStreamLambdaVersionN4oOx1BKo6CFrBzkqh6ap2TnH5arg8IXxlFQ1ovw"
+        "Ref": "NotifyStreamLambdaVersionWPNqQvYtRwyyYoObqoKYR7yvMoirMng3NLGrXlObQ"
       }
     },
     "StartProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "StartProcessLambdaVersionYk7wVBUrm1B6DA2MseNsupARaTflby5fBzk5aLeIBo"
+        "Ref": "StartProcessLambdaVersionNsDLnpNhTyHp69mKcjuy7XYwh4mlby1zgpzifkqipNM"
       }
     },
     "ServiceEndpoint": {

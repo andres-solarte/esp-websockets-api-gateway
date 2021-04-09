@@ -11,15 +11,12 @@ module.exports.main = async (event, context, callback) => {
     console.log('llegaron datos a la cola ', uuid)
 
     //Crea registro en dynamo
-    const status = 'CREATING_PROCESS'
-    await updateStatusByUuid(uuid, status)
+    await updateStatusByUuid(uuid, 'CREATING_PROCESS')
 
     await removeFromQueue(receiptHandle)
 
     //Simula crear proceso
-    setTimeout(() => {
-      console.log('World!')
-    }, 20000)
+    //await timeout(20000)
 
     //Actualiza resultado de creación de proceso
     await updateStatusByUuid(uuid, 'CREATED_PROCESS')
@@ -29,4 +26,8 @@ module.exports.main = async (event, context, callback) => {
     statusCode: 200,
     body: 'all ok',
   })
+}
+
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

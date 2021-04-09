@@ -1,7 +1,7 @@
 service: esp-ws-api-gateway
 
-package:
-  individually: true
+#package:
+#  individually: true
 
 custom:
   variables: ${file(serverless/variables.yml)}

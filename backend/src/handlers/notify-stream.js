@@ -1,25 +1,33 @@
-//import AWS from 'aws-sdk'
+const AWS = require('aws-sdk')
 
-// AWS.config.update({
-//   region: process.env.REGION || 'us-east-1',
-// })
+AWS.config.update({
+  region: 'us-east-1',
+})
+
+//INSERT - MODIFY - REMOVE
+const url = 'https://j7fzzhw7xk.execute-api.us-east-1.amazonaws.com/local'
 
 module.exports.main = (event, context, callback) => {
   try {
     console.log(JSON.stringify(event, null, 2))
-    event.Records.filter(record => record.eventName === 'MODIFY').forEach(record => {
-      //Lógica para saber qué mensaje enviar dependiendo del evento del stream
-      console.log(JSON.stringify(record, null, 2))
-    })
+    event.Records.filter(record => record.eventName === 'MODIFY').forEach(async record => {
+      const connectionId = record.dynamodb.NewImage.connectionId.S
+      const uuid = record.dynamodb.NewImage.uuid.S
+      const status = record.dynamodb.NewImage.status.S
 
-    // const websocketConnector = new AWS.ApiGatewayManagementApi(CONNECTOR_OPTS)
-    // return await websocketConnector
-    //   .postToConnection({
-    //     ConnectionId: event.data.connectionId,
-    //     //Message: status from dynamo y uuid
-    //     Data: JSON.stringify(event.data),
-    //   })
-    //   .promise()
+      //Lógica para saber qué mensaje enviar dependiendo del evento del stream
+      const websocketConnector = new AWS.ApiGatewayManagementApi({
+        apiVersion: '2018-11-29',
+        endpoint: url,
+      })
+
+      return await websocketConnector
+        .postToConnection({
+          ConnectionId: connectionId,
+          Data: JSON.stringify(uuid, status),
+        })
+        .promise()
+    })
   } catch (error) {
     console.log(error)
     const errorResponse = (0, _requests.makeErrorResponse)('Unexpected error processing the request ' + error.message)

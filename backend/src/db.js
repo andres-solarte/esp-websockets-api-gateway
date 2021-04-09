@@ -37,6 +37,9 @@ const updateStatusByUuid = (uuid, status) => {
     },
   }
 
+  console.log('updateParams')
+  console.log(updateParams)
+
   return documentClient.update(updateParams).promise()
 }
 
