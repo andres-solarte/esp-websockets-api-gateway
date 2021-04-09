@@ -1,5 +1,5 @@
-const uuid = 'abc-123'
-const webSocketUrl = `wss://j7fzzhw7xk.execute-api.us-east-1.amazonaws.com/local?uuid=${uuid}`
+const uuid = '123-abc'
+const webSocketUrl = `wss://2rwlhgclnl.execute-api.us-east-1.amazonaws.com/local?uuid=${uuid}`
 
 let webSocket
 
@@ -7,7 +7,7 @@ const onOpen = evt => {
   console.log('onOpen', evt)
   alert('WebSocket rocks')
 
-  webSocket.send(JSON.stringify({ uuid }))
+  //webSocket.send(JSON.stringify({ uuid }))
 }
 
 const onClose = evt => {

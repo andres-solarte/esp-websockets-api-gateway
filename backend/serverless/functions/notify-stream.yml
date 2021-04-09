@@ -3,7 +3,7 @@ notifyStream:
   events:
     - websocket:
         route: $default
-    #- stream:
-    #    type: dynamodb
-    #    arn:
-    #      Fn::GetAtt: [DynamoDBTableProcessCreationStatus, StreamArn]
+    - stream:
+        type: dynamodb
+        arn:
+          Fn::GetAtt: [DynamoDBTableProcessCreationStatus, StreamArn]
