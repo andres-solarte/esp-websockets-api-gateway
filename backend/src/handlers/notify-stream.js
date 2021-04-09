@@ -5,7 +5,7 @@ AWS.config.update({
 })
 
 //INSERT - MODIFY - REMOVE
-const url = 'https://2rwlhgclnl.execute-api.us-east-1.amazonaws.com/local'
+const url = 'https://3xbn6yssi7.execute-api.us-east-1.amazonaws.com/local'
 
 module.exports.main = (event, context, callback) => {
   console.log(JSON.stringify(event, null, 2))

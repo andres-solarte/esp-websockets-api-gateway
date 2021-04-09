@@ -111,8 +111,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "esp-ws-api-gateway",
-                  "local",
+                  "esp-ws-api-gateway-local",
                   "lambda"
                 ]
               ]
@@ -166,9 +165,11 @@
                     "sqs:SendMessage",
                     "sqs:DeleteMessage"
                   ],
-                  "Resource": {
-                    "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
-                  }
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:esp-ws-api-gateway-sqs-local-queue-create-process.fifo"
+                    }
+                  ]
                 },
                 {
                   "Effect": "Allow",
@@ -228,8 +229,7 @@
           "Fn::Join": [
             "-",
             [
-              "esp-ws-api-gateway",
-              "local",
+              "esp-ws-api-gateway-local",
               {
                 "Ref": "AWS::Region"
               },
@@ -246,7 +246,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617990245124-2021-04-09T17:44:05.124Z/esp-ws-api-gateway.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617996666340-2021-04-09T19:31:06.340Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-connect",
         "Handler": "src/handlers/connect.main",
@@ -270,17 +270,18 @@
         }
       },
       "DependsOn": [
-        "ConnectLogGroup"
+        "ConnectLogGroup",
+        "IamRoleLambdaExecution"
       ]
     },
-    "ConnectLambdaVersionqvMc2JdvXlRIcYdg5Ygyo2fCxDbFjB7cMdUwkQBOAY": {
+    "ConnectLambdaVersioneGJhQodxkR2GxhamjpH3Z3AOq1LYaPDJVDzUCB4X6yM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConnectLambdaFunction"
         },
-        "CodeSha256": "/Y7DhzzcW1N1PYtcJtQCDTXRxZ0UNm7m8qevfrljHxQ="
+        "CodeSha256": "yYcV2bduPiHL8l0N462gnPT94LsWMWklECdknDPFDdE="
       }
     },
     "CreateProcessLambdaFunction": {
@@ -290,7 +291,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617990245124-2021-04-09T17:44:05.124Z/esp-ws-api-gateway.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617996666340-2021-04-09T19:31:06.340Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-createProcess",
         "Handler": "src/handlers/create-process.main",
@@ -314,17 +315,18 @@
         }
       },
       "DependsOn": [
-        "CreateProcessLogGroup"
+        "CreateProcessLogGroup",
+        "IamRoleLambdaExecution"
       ]
     },
-    "CreateProcessLambdaVersiongpuLqlUS3UBoDpcyTWRBb9m0ClPA9ZZdagAj3hkXk": {
+    "CreateProcessLambdaVersionQcfBMAD62cwbEDFCjFj4kvloNNfAwrdwGQkPYXRZnA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateProcessLambdaFunction"
         },
-        "CodeSha256": "/Y7DhzzcW1N1PYtcJtQCDTXRxZ0UNm7m8qevfrljHxQ="
+        "CodeSha256": "yYcV2bduPiHL8l0N462gnPT94LsWMWklECdknDPFDdE="
       }
     },
     "DisconnectLambdaFunction": {
@@ -334,7 +336,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617990245124-2021-04-09T17:44:05.124Z/esp-ws-api-gateway.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617996666340-2021-04-09T19:31:06.340Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-disconnect",
         "Handler": "src/handlers/disconnect.main",
@@ -358,17 +360,18 @@
         }
       },
       "DependsOn": [
-        "DisconnectLogGroup"
+        "DisconnectLogGroup",
+        "IamRoleLambdaExecution"
       ]
     },
-    "DisconnectLambdaVersionq9KtEveZRDo0oD9xOE7toaXaNcTlc8azxj7phsVs2G8": {
+    "DisconnectLambdaVersionUUDQvX6ow7feUA8zyzui9LHalQfXZqxaNxy6Swjk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DisconnectLambdaFunction"
         },
-        "CodeSha256": "/Y7DhzzcW1N1PYtcJtQCDTXRxZ0UNm7m8qevfrljHxQ="
+        "CodeSha256": "yYcV2bduPiHL8l0N462gnPT94LsWMWklECdknDPFDdE="
       }
     },
     "NotifyStreamLambdaFunction": {
@@ -378,7 +381,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617990245124-2021-04-09T17:44:05.124Z/esp-ws-api-gateway.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617996666340-2021-04-09T19:31:06.340Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-notifyStream",
         "Handler": "src/handlers/notify-stream.main",
@@ -402,17 +405,18 @@
         }
       },
       "DependsOn": [
-        "NotifyStreamLogGroup"
+        "NotifyStreamLogGroup",
+        "IamRoleLambdaExecution"
       ]
     },
-    "NotifyStreamLambdaVersionGhyaCHycY86JvzK5vcujz0JwxxlSOUxqnidriw2NM": {
+    "NotifyStreamLambdaVersionMwkNADlwONHKmFC25O2vdVU9HLl714uJyG0w2zaFg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "NotifyStreamLambdaFunction"
         },
-        "CodeSha256": "/Y7DhzzcW1N1PYtcJtQCDTXRxZ0UNm7m8qevfrljHxQ="
+        "CodeSha256": "yYcV2bduPiHL8l0N462gnPT94LsWMWklECdknDPFDdE="
       }
     },
     "StartProcessLambdaFunction": {
@@ -422,7 +426,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/esp-ws-api-gateway/local/1617990245124-2021-04-09T17:44:05.124Z/esp-ws-api-gateway.zip"
+          "S3Key": "serverless/esp-ws-api-gateway/local/1617996666340-2021-04-09T19:31:06.340Z/esp-ws-api-gateway.zip"
         },
         "FunctionName": "esp-ws-api-gateway-local-startProcess",
         "Handler": "src/handlers/start-process.main",
@@ -446,17 +450,18 @@
         }
       },
       "DependsOn": [
-        "StartProcessLogGroup"
+        "StartProcessLogGroup",
+        "IamRoleLambdaExecution"
       ]
     },
-    "StartProcessLambdaVersionpBxVJSYlktO049N8mFhenCoP7cVHFHuvsGG5xJ11XQ": {
+    "StartProcessLambdaVersionBy6gVT6QfREThyGucryexO7PdP29HC7NqKdpkophKA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "StartProcessLambdaFunction"
         },
-        "CodeSha256": "/Y7DhzzcW1N1PYtcJtQCDTXRxZ0UNm7m8qevfrljHxQ="
+        "CodeSha256": "yYcV2bduPiHL8l0N462gnPT94LsWMWklECdknDPFDdE="
       }
     },
     "ApiGatewayRestApi": {
@@ -556,7 +561,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1617990225588": {
+    "ApiGatewayDeployment1617996660401": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -853,9 +858,7 @@
     },
     "NotifyStreamEventSourceMappingDynamodbDynamoDBTableProcessCreationStatus": {
       "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "IamRoleLambdaExecution"
-      ],
+      "DependsOn": "IamRoleLambdaExecution",
       "Properties": {
         "BatchSize": 10,
         "EventSourceArn": {
@@ -876,9 +879,7 @@
     },
     "CreateProcessEventSourceMappingSQSEspwsapigatewaysqslocalqueuecreateprocessfifo": {
       "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "IamRoleLambdaExecution"
-      ],
+      "DependsOn": "IamRoleLambdaExecution",
       "Properties": {
         "BatchSize": 10,
         "EventSourceArn": {
@@ -969,31 +970,31 @@
     "ConnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConnectLambdaVersionqvMc2JdvXlRIcYdg5Ygyo2fCxDbFjB7cMdUwkQBOAY"
+        "Ref": "ConnectLambdaVersioneGJhQodxkR2GxhamjpH3Z3AOq1LYaPDJVDzUCB4X6yM"
       }
     },
     "CreateProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateProcessLambdaVersiongpuLqlUS3UBoDpcyTWRBb9m0ClPA9ZZdagAj3hkXk"
+        "Ref": "CreateProcessLambdaVersionQcfBMAD62cwbEDFCjFj4kvloNNfAwrdwGQkPYXRZnA"
       }
     },
     "DisconnectLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DisconnectLambdaVersionq9KtEveZRDo0oD9xOE7toaXaNcTlc8azxj7phsVs2G8"
+        "Ref": "DisconnectLambdaVersionUUDQvX6ow7feUA8zyzui9LHalQfXZqxaNxy6Swjk"
       }
     },
     "NotifyStreamLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "NotifyStreamLambdaVersionGhyaCHycY86JvzK5vcujz0JwxxlSOUxqnidriw2NM"
+        "Ref": "NotifyStreamLambdaVersionMwkNADlwONHKmFC25O2vdVU9HLl714uJyG0w2zaFg"
       }
     },
     "StartProcessLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "StartProcessLambdaVersionpBxVJSYlktO049N8mFhenCoP7cVHFHuvsGG5xJ11XQ"
+        "Ref": "StartProcessLambdaVersionBy6gVT6QfREThyGucryexO7PdP29HC7NqKdpkophKA"
       }
     },
     "ServiceEndpoint": {
